@@ -29,6 +29,26 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
+#defining the map we will use to test conditionals
+map = {}
+currentExits = {}
+for i in player.current_room.get_exits():
+    currentExits[i] = '?'
+map[player.current_room.id] = currentExits
+#define what our previous room will be
+prev = player.current_room.id
+#define our initial movement
+initial_selection = random.choice(player.current_room.get_exits())
+player.travel(initial_selection)
+#adding that movement to the traversal_path
+traversal_path.append(initial_selection)
+# print(traversal_path)
+
+
+
+map[prev]['e'] = prev
+print(map)
+
 
 
 # TRAVERSAL TEST
@@ -46,36 +66,21 @@ else:
     print("TESTS FAILED: INCOMPLETE TRAVERSAL")
     print(f"{len(room_graph) - len(visited_rooms)} unvisited rooms")
 
-def traversal(currentRoom):
-    florbo = {}
-    current_exits = {}
-    for exit in currentRoom.get_exits():
-        current_exits[exit] = '?'
-    
-    florbo[currentRoom.id] = current_exits
-    print(florbo)
+
     
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    traversal(player.current_room)
-    # print(visited_rooms)
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
-
-#algorithm
-
-#rules
-'''
-if a room has no more unexplored exits, or has none, then backtrack
-to the last room that does have an unexplored exit.
-'''
+# player.current_room.print_room_description(player)
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     traversal(player.current_room)
+#     # print(visited_rooms)
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")
 
 
