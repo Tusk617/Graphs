@@ -103,7 +103,7 @@ class Graph:
         #each vertex that is printed needs to marked as "visited"
         
         #printing our current vertex because we've visited it
-        print(f"recursive_dtf: {starting_vertex}")
+        print(starting_vertex)
         visited = self.visited_nodes
         neighbors = self.get_neighbors(starting_vertex)
         to_visit = []
