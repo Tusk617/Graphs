@@ -1,3 +1,4 @@
+from collections import deque
 from room import Room
 from player import Player
 from world import World
@@ -12,9 +13,9 @@ world = World()
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
-map_file = "maps/test_loop.txt"
+# map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -29,27 +30,46 @@ player = Player(world.starting_room)
 # traversal_path = ['n', 'n']
 traversal_path = []
 
-#defining the map we will use to test conditionals
 map = {}
 currentExits = {}
-for i in player.current_room.get_exits():
-    currentExits[i] = '?'
-map[player.current_room.id] = currentExits
-#define what our previous room will be
-prev = player.current_room.id
-#define our initial movement
-initial_selection = random.choice(player.current_room.get_exits())
-player.travel(initial_selection)
-#adding that movement to the traversal_path
-traversal_path.append(initial_selection)
-# print(traversal_path)
 
 
+# def traversal():
+#     for i in player.current_room.get_exits():
+#         current_exits[i] = '?'
+#     print(current_exits)
+#     for x in current_exits:
+#         if current_exits[x] == '?':
+#             player.travel(x)
+#             print(player.current_room.id)
+#             traversal_path.append(x)
+#             traversal()
 
-map[prev]['e'] = prev
-print(map)
+# traversal()
 
+def traversal():
+    for i in player.current_room.get_exits():
+        currentExits[i] = '?'
+    map[player.current_room.id] = currentExits
 
+    previousRoom = player.current_room.id
+    if map[previousRoom] is None:
+        for i in player.current_room.get_exits():
+            currentExits[i] = '?'
+        map[previousRoom] = currentExits
+
+    direction = random.choice(player.current_room.get_exits())
+    if player.travel(direction) == "You cannot move in that direction.":
+        traversal()
+    else:
+        map[previousRoom][direction] = previousRoom
+        traversal_path.append(direction)
+        print(traversal_path)
+        # print(map)
+        traversal()
+    return
+
+traversal()
 
 # TRAVERSAL TEST
 visited_rooms = set()
