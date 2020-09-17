@@ -34,40 +34,40 @@ map = {}
 currentExits = {}
 
 
-def traversal():
-    for i in player.current_room.get_exits():
-        current_exits[i] = '?'
-    print(current_exits)
-    for x in current_exits:
-        if current_exits[x] == '?':
-            player.travel(x)
-            print(player.current_room.id)
-            traversal_path.append(x)
-            traversal()
-
-# traversal()
-
 # def traversal():
 #     for i in player.current_room.get_exits():
-#         currentExits[i] = '?'
-#     map[player.current_room.id] = currentExits
+#         current_exits[i] = '?'
+#     print(current_exits)
+#     for x in current_exits:
+#         if current_exits[x] == '?':
+#             player.travel(x)
+#             print(player.current_room.id)
+#             traversal_path.append(x)
+#             traversal()
 
-#     previousRoom = player.current_room.id
-#     if map[previousRoom] is None:
-#         for i in player.current_room.get_exits():
-#             currentExits[i] = '?'
-#         map[previousRoom] = currentExits
+traversal()
 
-#     direction = random.choice(player.current_room.get_exits())
-#     if player.travel(direction) == "You cannot move in that direction.":
-#         traversal()
-#     else:
-#         map[previousRoom][direction] = previousRoom
-#         traversal_path.append(direction)
-#         print(traversal_path)
-#         # print(map)
-#         traversal()
-#     return
+def traversal():
+    for i in player.current_room.get_exits():
+        currentExits[i] = '?'
+    map[player.current_room.id] = currentExits
+
+    previousRoom = player.current_room.id
+    if map[previousRoom] is None:
+        for i in player.current_room.get_exits():
+            currentExits[i] = '?'
+        map[previousRoom] = currentExits
+
+    direction = random.choice(player.current_room.get_exits())
+    if player.travel(direction) == "You cannot move in that direction.":
+        traversal()
+    else:
+        map[previousRoom][direction] = previousRoom
+        traversal_path.append(direction)
+        print(traversal_path)
+        # print(map)
+        traversal()
+    return
 
 traversal()
 
