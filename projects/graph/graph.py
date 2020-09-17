@@ -8,38 +8,88 @@ class Graph:
     """Represent a graph as a dictionary of vertices mapping labels to edges."""
     def __init__(self):
         self.vertices = {}
+        self.visited_nodes = []
 
     def add_vertex(self, vertex_id):
         """
         Add a vertex to the graph.
         """
-        pass  # TODO
+        # pass
+        self.vertices[vertex_id] = set()
 
     def add_edge(self, v1, v2):
         """
         Add a directed edge to the graph.
         """
-        pass  # TODO
+        # pass
+        if v1 in self.vertices and v2 in self.vertices:
+            self.vertices[v1].add(v2)
+        else:
+            raise IndexError("That vertex isn't real! What is real? What am I? Oh god, OH GOD!")
 
     def get_neighbors(self, vertex_id):
         """
         Get all neighbors (edges) of a vertex.
         """
-        pass  # TODO
+        # pass
+        return self.vertices[vertex_id]
 
     def bft(self, starting_vertex):
         """
         Print each vertex in breadth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # pass
+
+        #set up a queue
+        to_visit = Queue()
+
+        #set up a set for nodes we've already visted
+        visited = set()
+
+        #initialize
+        to_visit.enqueue(starting_vertex)
+
+        while to_visit.size() > 0:
+            #dequeue first entry because we've already visisted it duh
+            v = to_visit.dequeue()
+
+            #if we haven't visited a node though
+            if v not in visited:
+                print(v)
+                visited.add(v)
+
+                for neighbors in self.get_neighbors(v):
+
+                    to_visit.enqueue(neighbors)
+
+
 
     def dft(self, starting_vertex):
         """
         Print each vertex in depth-first order
         beginning from starting_vertex.
         """
-        pass  # TODO
+        # pass
+
+        to_visit = Stack()
+
+        visited = set()
+
+
+        to_visit.push(starting_vertex)
+
+        while to_visit.size() > 0:
+
+            v = to_visit.pop()
+
+            if v not in visited:
+                print(v)
+
+                visited.add(v)
+
+                for n in self.get_neighbors(v):
+                    to_visit.push(n)
 
     def dft_recursive(self, starting_vertex):
         """
@@ -48,13 +98,38 @@ class Graph:
 
         This should be done using recursion.
         """
-        pass  # TODO
+        # pass
+        #should print each vertex
+        #each vertex that is printed needs to marked as "visited"
+        
+        #printing our current vertex because we've visited it
+        print(starting_vertex)
+        visited = self.visited_nodes
+        neighbors = self.get_neighbors(starting_vertex)
+        to_visit = []
+        # print(starting_vertex)
+        # print(f"to_visit: {to_visit}")
+        # print(neighbors)
+
+        for n in neighbors:
+            to_visit.append(n)
+        # print(to_visit)
+
+        if to_visit[0] not in visited:
+            v = to_visit.pop()
+            visited.append(v)
+            # print(visited)
+            # print(to_visit)
+            self.dft_recursive(v)
+
+
+        
 
     def bfs(self, starting_vertex, destination_vertex):
         """
         Return a list containing the shortest path from
         starting_vertex to destination_vertex in
-        breath-first order.
+        breadth-first order.
         """
         pass  # TODO
 
